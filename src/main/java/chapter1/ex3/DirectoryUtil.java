@@ -5,46 +5,31 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.apache.commons.io.FilenameUtils;
 
 public class DirectoryUtil {
 
-    public static List<File> subdirectories(File targetDir) {
-        List<File> results = new LinkedList<>();
-        List<File> unsearched = new LinkedList<>();
-        unsearched.add(targetDir);
+    public static List<File> getFiles(File targetDir, String ext) {
+        if (targetDir == null || ext == null) throw new NullPointerException();
 
-        while (!unsearched.isEmpty()) {
-            File dir = unsearched.remove(0);
-            List<File> sf = Arrays.
-                    stream(dir.list((d, name) -> (new File(d, name)).isDirectory())).
-                    map((String x) -> new File(dir, x)).
+        List<File> results = new LinkedList<>();
+        List<File> unsearchedDir = new LinkedList<>();
+        unsearchedDir.add(targetDir);
+
+        while (!unsearchedDir.isEmpty()) {
+            File dir = unsearchedDir.remove(0);
+            List<File> listDir = Arrays.
+                    stream(dir.listFiles((file) -> file.isDirectory())).
                     collect(Collectors.toList());
-            results.addAll(sf);
-            unsearched.addAll(sf);
+            unsearchedDir.addAll(listDir);
+            
+            listDir = Arrays.
+                    stream(dir.list((d, name) -> FilenameUtils.getExtension(name).equals(ext))).
+                    map((name) -> new File(dir, name)).
+                    collect(Collectors.toList());
+            results.addAll(listDir);
         }
 
         return results;
-    }
-    
-    public static List<File> subdirectoriesByMethodReference(File targetDir) {
-        List<File> results = new LinkedList<>();
-        List<File> unsearched = new LinkedList<>();
-        unsearched.add(targetDir);
-
-        while (!unsearched.isEmpty()) {
-            File dir = unsearched.remove(0);
-            List<File> sf = Arrays.
-                    stream(dir.list(DirectoryUtil::accept)).
-                    map((String x) -> new File(dir, x)).
-                    collect(Collectors.toList());
-            results.addAll(sf);
-            unsearched.addAll(sf);
-        }
-
-        return results;
-    }
-    
-    private static boolean accept(File dir, String name) {
-        return new File(dir, name).isDirectory();
     }
 }

@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 public class DirectoryUtil {
 
     public static List<File> subdirectories(File targetDir) {
+        if (targetDir == null) throw new NullPointerException();
+        
         List<File> results = new LinkedList<>();
         List<File> unsearched = new LinkedList<>();
         unsearched.add(targetDir);
@@ -26,6 +28,8 @@ public class DirectoryUtil {
     }
     
     public static List<File> subdirectoriesByMethodReference(File targetDir) {
+        if (targetDir == null) throw new NullPointerException();
+        
         List<File> results = new LinkedList<>();
         List<File> unsearched = new LinkedList<>();
         unsearched.add(targetDir);
