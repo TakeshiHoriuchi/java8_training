@@ -1,5 +1,9 @@
 package chapter1.ex3;
 
+/*
+* extがラムダ式内でキャプチャされている
+*/
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedList;
