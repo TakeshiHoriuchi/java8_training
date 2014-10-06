@@ -1,4 +1,4 @@
-package horiuchi.java8training.chapter1.ex2;
+package chapter1.ex3;
 
 import java.io.File;
 import java.util.Arrays;

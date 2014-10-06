@@ -1,6 +1,6 @@
 // すべて同じスレッドで実行される
 
-package horiuchi.java8training.chapter1.ex1;
+package chapter1.ex1;
 
 import java.util.Arrays;
 import java.util.Random;

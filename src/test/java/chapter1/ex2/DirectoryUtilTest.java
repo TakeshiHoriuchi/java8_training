@@ -1,5 +1,6 @@
-package horiuchi.java8training.chapter1.ex2;
+package chapter1.ex2;
 
+import chapter1.ex2.DirectoryUtil;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
