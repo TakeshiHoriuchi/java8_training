@@ -16,8 +16,7 @@ public class DirectoryUtil {
         while (!unsearched.isEmpty()) {
             File dir = unsearched.remove(0);
             List<File> sf = Arrays.
-                    stream(dir.list((d, name) -> (new File(d, name)).isDirectory())).
-                    map((String x) -> new File(dir, x)).
+                    stream(dir.listFiles((file) -> file.isDirectory())).
                     collect(Collectors.toList());
             results.addAll(sf);
             unsearched.addAll(sf);
@@ -34,8 +33,7 @@ public class DirectoryUtil {
         while (!unsearched.isEmpty()) {
             File dir = unsearched.remove(0);
             List<File> sf = Arrays.
-                    stream(dir.list(DirectoryUtil::accept)).
-                    map((String x) -> new File(dir, x)).
+                    stream(dir.listFiles(DirectoryUtil::accept)).
                     collect(Collectors.toList());
             results.addAll(sf);
             unsearched.addAll(sf);
@@ -44,7 +42,7 @@ public class DirectoryUtil {
         return results;
     }
     
-    private static boolean accept(File dir, String name) {
-        return new File(dir, name).isDirectory();
+    private static boolean accept(File file) {
+        return file.isDirectory();
     }
 }
