@@ -1,0 +1,47 @@
+デジタル時計課題の1クラスの無名内部クラスをラムダ式に置き換えた。
+すべて無名内部クラスを使用していたのでメソッド参照は使わなかった。
+
+34,38c34
+<         menuItemClose.addActionListener(new ActionListener() {
+<             public void actionPerformed(ActionEvent e) {
+<                 System.exit(0);
+<             }
+<         });
+---
+>         menuItemClose.addActionListener(e -> System.exit(0));
+66,71c62
+<                       item.addActionListener(new ActionListener() {
+<                               @Override
+<                               public void actionPerformed(ActionEvent e) {
+<                                       clockPanel.setFontSize(i);
+<                               }
+<                       });
+---
+>                       item.addActionListener(e -> clockPanel.setFontSize(i));
+91,96c82
+<                       item.addActionListener(new ActionListener() {
+<                               @Override
+<                               public void actionPerformed(ActionEvent e) {
+<                                       clockPanel.setFontType(fontName);
+<                               }
+<                       });
+---
+>                       item.addActionListener(e -> clockPanel.setFontType(fontName));
+111,116c97
+<                       item.addActionListener(new ActionListener() {
+<                               @Override
+<                               public void actionPerformed(ActionEvent e) {
+<                                       clockPanel.setLetterColor(cstr.getColor());
+<                               }
+<                       });
+---
+>                       item.addActionListener(e -> clockPanel.setLetterColor(cstr.getColor()));
+131,136c112
+<                       item.addActionListener(new ActionListener() {
+<                               @Override
+<                               public void actionPerformed(ActionEvent e) {
+<                                       clockPanel.setBackgroundColor(cstr.getColor());
+<                               }
+<                       });
+---
+>                       item.addActionListener(e -> clockPanel.setBackgroundColor(cstr.getColor));
