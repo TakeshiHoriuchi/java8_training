@@ -16,7 +16,7 @@ public class CaptureTest {
     List<Runnable> runners = new ArrayList<>();
     for (String name: names) 
       runners.add(() -> System.out.println(name));
-    runners.forEach(r -> { new Thread(r).start(); });
+    runners.forEach(r -> { r.run(); });
     
 //    for (int i=0; i < names.length; i++)
 //      runners.add(() -> System.out.println(names[i]));

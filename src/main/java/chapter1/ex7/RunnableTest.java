@@ -8,11 +8,9 @@ public class RunnableTest {
   }
 
   public static void main(String[] args) {
-    new Thread(
-      andThen(
-        () -> { System.out.println("foo"); }, 
-        () -> { System.out.println("bar"); }
-      )
-    ).start();
+    andThen(
+      () -> { System.out.println("foo"); }, 
+      () -> { System.out.println("bar"); }
+    ).run();
   }
 }
