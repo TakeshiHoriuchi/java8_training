@@ -1,0 +1,13 @@
+Collection を継承したクラスでシグネチャが同じで返り値の型が異なるstream()を実装しているとコンパイルエラー
+以下のようなコードをJava7(openjdk-1.7.0-devel) でJarにしてJava8で実行すると正常にstream()も実行される。JARファイルとしては互換性がある?
+
+import java.util.ArrayList;                                
+                                                           
+class MyArrayList<T> extends ArrayList<T> {                
+ public String stream() {                                  
+   return "stream of MyArrayList";                         
+ }                                                         
+ public static void main(String[] args) {                  
+  System.out.println((new MyArrayList<String>()).stream());
+ }
+}

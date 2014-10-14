@@ -49,7 +49,7 @@ public class DefaultMethodTest {
     Stream.of("抽象メソッド", "デフォルトメソッド", "staticメソッド").forEach((i) -> {
       Stream.of("Jの抽象メソッド", "Jのデフォルトメソッド", "Jのstaticメソッド", "Sのメソッド").forEach((j) -> {
         try {
-          Class<?> klass = Class.forName(String.join("", packageName, ".Iの", i, "と", j, "を継承"));
+          Class<?> klass = Class.forName(String.format("%s.Iの%sと%sを継承", packageName, i, j));
           System.out.println("\n" + klass.getName().substring(packageName.length()+1) + "したクラスのf(): ");
           try {
             System.out.print("  インスタンスメソッド: ");
