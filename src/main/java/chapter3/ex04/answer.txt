@@ -1,0 +1,29 @@
+Java API でFilterという名前を持つ関数インタフェースは以下の9つ。
+serach_filter_from_java_api.rb によりJava API のリファレンスサイトからスクレイプして取得。
+
+java.io.FileFilter
+java.io.FilenameFilter
+java.nio.file.DirectoryStream.Filter<T>
+java.util.logging.Filter
+javax.imageio.spi.ServiceRegistry.Filter
+javax.management.NotificationFilter
+javax.xml.stream.EventFilter
+javax.xml.stream.StreamFilter
+org.w3c.dom.ls.LSSerializerFilter
+
+それぞれメソッドのシグネチャは
+
+boolean	java.io.FileFilter#accept(File pathname)
+boolean java.io.FilenameFilter#accept(File dir, String name)
+boolean	java.nio.file.DirectoryStream.Filter<T>#accept(T entry)
+boolean	java.util.logging.Filter#isLoggable(LogRecord record)
+boolean	javax.imageio.spi.ServiceRegistry.Filter#filter(Object provider)
+boolean	javax.management.NotificationFilter#isNotificationEnabled(Notification notification)
+boolean	javax.xml.stream.EventFilter#accept(XMLEvent event)
+boolean	javax.xml.stream.StreamFilter#accept(XMLStreamReader reader)
+int org.w3c.dom.ls.LSSerializerFilter#getWhatToShow()
+
+このうち Predicate<T> と返り値、引数の型が異なるものは
+
+boolean java.io.FilenameFilter#accept(File dir, String name)
+int org.w3c.dom.ls.LSSerializerFilter#getWhatToShow()
