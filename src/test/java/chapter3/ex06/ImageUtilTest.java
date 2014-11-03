@@ -1,43 +1,34 @@
-package chapter3.ex05;
+package chapter3.ex06;
 
 import java.util.stream.Stream;
 import javafx.scene.Parent;
 import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
-import javafx.scene.paint.Color;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.loadui.testfx.GuiTest;
 import static util.TestUtil.forEachIndex;
 import static util.TestUtil.getTestImageURL;
 
-/*
- * GuiTestを継承せずにImageを初期化しようとすると、
- * Cannot create a JavaFX Image until "Internal graphics" are initialized
- * というエラーが出る。
- */
-public class ImageUtilTest extends GuiTest{
+public class ImageUtilTest extends GuiTest {
+
   @Test
   public void testTransform() {
     Image in = new Image(getTestImageURL());
     int width = (int) in.getWidth();
     int height = (int) in.getHeight();
-    Image result = ImageUtil.transform(in, (x, y, c) -> {
-      if (x <= 10 || width - x <= 10 || y <= 10 || height - y <= 10)
-        return Color.GRAY;
-      else 
-        return c;
-    });
+    Image result = ImageUtil.transform(in, (c, factor) -> c.deriveColor(0, 1, factor, 1), 1.2);
 
     PixelReader actPReader = result.getPixelReader();
     PixelReader expPReader = in.getPixelReader();
     forEachIndex(width - 1, x -> {
       forEachIndex(height - 1, y -> {
-        if (x <= 10 || width - x <= 10 || y <= 10 || height - y <= 10)
-          assertEquals(Color.GRAY, actPReader.getColor(x, y));
-        else
-          assertEquals(expPReader.getColor(x, y), actPReader.getColor(x, y));
+        assertEquals(
+                Math.min(expPReader.getColor(x, y).getBrightness() * 1.2, 1.0), 
+                actPReader.getColor(x, y).getBrightness(), 
+                0.01
+        );
       });
     });
   }
