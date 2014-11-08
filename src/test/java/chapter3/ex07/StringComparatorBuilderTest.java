@@ -6,10 +6,11 @@ import java.util.Comparator;
 import java.util.function.IntPredicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.IntStream;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static util.TestUtil.forEachIndex;
+
+// Parameterized Runner を使うべき
 
 public class StringComparatorBuilderTest {
 
