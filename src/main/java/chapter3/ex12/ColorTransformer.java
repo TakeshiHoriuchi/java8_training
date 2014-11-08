@@ -1,4 +1,4 @@
-package chapter3.ex11;
+package chapter3.ex12;
 
 import java.util.function.UnaryOperator;
 import javafx.scene.image.Image;
