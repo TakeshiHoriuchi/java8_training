@@ -18,13 +18,19 @@ public class LatentImage {
   public LatentImage(Image in) {
     pipelineStage = new PipelineStageImage(in, (x, y, reader) -> reader.getColor(x, y));
   }
-
+  
+  public LatentImage transform(BaseColorTransformer ct) {
+    pipelineStage = new PipelineStageImage(pipelineStage, ct);
+    return this;
+  }
+  
   public LatentImage transform(UnaryOperator<Color> f) {
     pipelineStage = new PipelineStageImage(pipelineStage, BaseColorTransformer.from(f));
     return this;
   }
 
-  public LatentImage transform(UniPixelColorTransformer ct) {
+  // BaseColorTransformer と関数の引数の数が被るのでオーバーロードしない名前にしている
+  public LatentImage transformByUniPixelColorTransformer(UniPixelColorTransformer ct) {
     pipelineStage = new PipelineStageImage(pipelineStage, ct.toBaseColorTransformer());
     return this;
   }

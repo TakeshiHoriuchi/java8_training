@@ -1,6 +1,5 @@
 package chapter3.ex14;
 
-import java.io.IOException;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.paint.Color;
@@ -30,7 +29,7 @@ public class LatentImageTest extends ImageTransformTestUtil {
   public void testTransform_UniPixelColorTransformer_not_evaluate_function() {
     LatentImage limage = new LatentImage(in);
     IsEvaluated ise = new IsEvaluated();
-    limage.transform((x, y, c) -> {
+    limage.transformByUniPixelColorTransformer((x, y, c) -> {
       ise.isEval = true;
       return c;
     });
@@ -41,7 +40,7 @@ public class LatentImageTest extends ImageTransformTestUtil {
   public void testToImage_evaluate_all_saved_functions() {
     LatentImage limage = new LatentImage(in);
     limage.transform(c -> c.deriveColor(0, 1, 1.2, 1)).
-            transform((x, y, c) -> x <= 10 ? Color.ALICEBLUE : c);
+            transformByUniPixelColorTransformer((x, y, c) -> x <= 10 ? Color.ALICEBLUE : c);
 
     PixelReader actPReader = limage.toImage().getPixelReader();
     applyAllPixels((x, y) -> {
@@ -57,9 +56,17 @@ public class LatentImageTest extends ImageTransformTestUtil {
       }
     });
   }
+  
+  @Test
+  public void testToImage_evaluate_BaseColorTransformer() {
+    LatentImage limage = new LatentImage(in);
+    limage.transform((x, y, reader) -> reader.getColor(width - x - 1, y));
+    PixelReader actPReader = limage.toImage().getPixelReader();
+    applyAllPixels((x, y) -> assertEquals(expPReader.getColor(x, y), actPReader.getColor(width - x - 1, y)));
+  }
 
   @Test
-  public void testToImage_evaluate_convolution_function() throws IOException {
+  public void testToImage_evaluate_convolution_function() {
     LatentImage limage = new LatentImage(in);
     limage.transform(new ConvolutionTransformer(new double[][]{{0, -1, 0},
                                                                {-1, 4, -1},
