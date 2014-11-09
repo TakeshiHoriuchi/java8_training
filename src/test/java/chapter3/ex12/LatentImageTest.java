@@ -28,8 +28,8 @@ public class LatentImageTest extends ImageTransformTestUtil {
   @Test
   public void testToImage_evaluate_all_saved_functions() {
     LatentImage limage = new LatentImage(in);
-    limage.transform(c -> c.deriveColor(0, 1, 1.2, 1));
-    limage.transform((x, y, c) -> x <= 10 ? Color.ALICEBLUE : c);
+    limage.transform(c -> c.deriveColor(0, 1, 1.2, 1)).
+            transform((x, y, c) -> x <= 10 ? Color.ALICEBLUE : c);
     
     PixelReader actPReader = limage.toImage().getPixelReader();
     applyAllPixels((x, y) -> {

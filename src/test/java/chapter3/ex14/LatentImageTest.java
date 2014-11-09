@@ -1,5 +1,6 @@
-package chapter3.ex13;
+package chapter3.ex14;
 
+import java.io.IOException;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.paint.Color;
@@ -58,7 +59,7 @@ public class LatentImageTest extends ImageTransformTestUtil {
   }
 
   @Test
-  public void testToImage_evaluate_convolution_function() {
+  public void testToImage_evaluate_convolution_function() throws IOException {
     LatentImage limage = new LatentImage(in);
     limage.transform(new ConvolutionTransformer(new double[][]{{0, -1, 0},
                                                                {-1, 4, -1},
@@ -89,10 +90,26 @@ public class LatentImageTest extends ImageTransformTestUtil {
     PixelReader actPReader = limage.toImage().getPixelReader();
     PixelReader expPReader = new Image(LatentImageTest.class.getResource("edge_and_smooth_filtered.png").toString()).getPixelReader();
     applyAllPixels((x, y) -> {
-      assertEquals(
-              expPReader.getColor(x, y),
-              actPReader.getColor(x, y)
-      );
+      assertEquals(expPReader.getColor(x, y), actPReader.getColor(x, y));
     });
+  }
+  
+  @Test
+  public void testPixelReader() {
+    LatentImage limage = new LatentImage(in);
+    limage.transform(new ConvolutionTransformer(new double[][]{{0, -1, 0},
+                                                               {-1, 4, -1},
+                                                               {0, -1, 0}}));
+    
+    double ave = 1 / 9.0;
+    limage.transform(new ConvolutionTransformer(new double[][]{{ave, ave, ave},
+                                                               {ave, ave, ave},
+                                                               {ave, ave, ave}}));
+
+    PixelReader actPReader = limage.getPixelReader();
+    PixelReader expPReader = new Image(LatentImageTest.class.getResource("edge_and_smooth_filtered.png").toString()).getPixelReader();
+    assertEquals(expPReader.getColor(10, 10), actPReader.getColor(10, 10));
+    assertEquals(expPReader.getColor(11, 11), actPReader.getColor(11, 11));
+    assertEquals(expPReader.getColor(152, 37), actPReader.getColor(152, 37));
   }
 }
