@@ -1,4 +1,4 @@
-package chapter3.ex13;
+package chapter3.ex15;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
@@ -11,10 +11,6 @@ import util.IsEvaluated;
 /*
 畳み込みフィルタのテストはLatentImage自体で変換した画像を目視した後、
 保存してテスト期待値の画像としている
-
-オーバーライドされたtransform メソッドのうち、
-どれを用いるかコンパイラが推論できずコンパイルエラーになる場合がある。
-一方で、コンパイルが成功する場合もある。
 */
 public class LatentImageTest extends ImageTransformTestUtil {
 
@@ -33,7 +29,7 @@ public class LatentImageTest extends ImageTransformTestUtil {
   public void testTransform_UniPixelColorTransformer_not_evaluate_function() {
     LatentImage limage = new LatentImage(in);
     IsEvaluated ise = new IsEvaluated();
-    limage.transform((x, y, c) -> {
+    limage.transformByUniPixelColorTransformer((x, y, c) -> {
       ise.isEval = true;
       return c;
     });
@@ -44,7 +40,7 @@ public class LatentImageTest extends ImageTransformTestUtil {
   public void testToImage_evaluate_all_saved_functions() {
     LatentImage limage = new LatentImage(in);
     limage.transform(c -> c.deriveColor(0, 1, 1.2, 1)).
-            transform((x, y, c) -> x <= 10 ? Color.ALICEBLUE : c);
+            transformByUniPixelColorTransformer((x, y, c) -> x <= 10 ? Color.ALICEBLUE : c);
 
     PixelReader actPReader = limage.toImage().getPixelReader();
     applyAllPixels((x, y) -> {
@@ -59,6 +55,14 @@ public class LatentImageTest extends ImageTransformTestUtil {
         );
       }
     });
+  }
+  
+  @Test
+  public void testToImage_evaluate_BaseColorTransformer() {
+    LatentImage limage = new LatentImage(in);
+    limage.transform((x, y, reader) -> reader.getColor(width - x - 1, y));
+    PixelReader actPReader = limage.toImage().getPixelReader();
+    applyAllPixels((x, y) -> assertEquals(expPReader.getColor(x, y), actPReader.getColor(width - x - 1, y)));
   }
 
   @Test
@@ -93,10 +97,7 @@ public class LatentImageTest extends ImageTransformTestUtil {
     PixelReader actPReader = limage.toImage().getPixelReader();
     PixelReader expPReader = new Image(LatentImageTest.class.getResource("edge_and_smooth_filtered.png").toString()).getPixelReader();
     applyAllPixels((x, y) -> {
-      assertEquals(
-              expPReader.getColor(x, y),
-              actPReader.getColor(x, y)
-      );
+      assertEquals(expPReader.getColor(x, y), actPReader.getColor(x, y));
     });
   }
 }
