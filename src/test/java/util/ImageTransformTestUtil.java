@@ -26,7 +26,7 @@ public class ImageTransformTestUtil extends GuiTest {
   
   @Override
   protected Parent getRootNode() {
-    return new MenuBar();
+    return new MenuBar(); // Parentを継承したインスタンスなら何でもよい
   }
   
   protected void applyAllPixels(IntBiConsumer consumer) {

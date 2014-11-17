@@ -1,0 +1,3 @@
+Bifunction の最初の型引数は関数の引数を受け取る Consumer であり、? super U とすると、
+BiFunction<Object, Object, U> のインスタンスを accumulator に代入できるので、
+宣言したほうがよい。
