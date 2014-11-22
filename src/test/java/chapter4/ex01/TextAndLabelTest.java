@@ -11,9 +11,9 @@ public class TextAndLabelTest extends GuiTest {
 
   @Test
   public void testTextAndLabel() {
-    verifyThat("#label", (Label l) -> l.getText().equals("Hello, JavaFX"));
+    verifyThat("#label", (Label label) -> label.getText().equals("Hello, JavaFX"));
     click("#textField").push(KeyCode.CONTROL, KeyCode.A).push(KeyCode.BACK_SPACE).type("foo");
-    verifyThat("#label", (Label l) -> l.getText().equals("foo"));
+    verifyThat("#label", (Label label) -> label.getText().equals("foo"));
   }
 
   @Override
