@@ -1,4 +1,4 @@
-package chapter4.ex01;
+package chapter4.ex08;
 
 import java.net.URL;
 import java.util.ResourceBundle;

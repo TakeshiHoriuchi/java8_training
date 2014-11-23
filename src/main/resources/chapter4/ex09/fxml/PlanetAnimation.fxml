@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="517.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chapter4.ex09.PlanetAnimationController">
+   <children>
+      <Circle fx:id="planet" layoutX="64.0" layoutY="200.0" radius="50.0" stroke="TRANSPARENT" strokeType="INSIDE">
+         <fill>
+            <RadialGradient centerX="0.49444444444444446" centerY="0.5" focusDistance="0.09302325581395343" radius="0.5930232558139534">
+               <stops>
+                  <Stop color="#f55c5c" />
+                  <Stop color="#ffffff00" offset="1.0" />
+               </stops>
+            </RadialGradient>
+         </fill></Circle>
+      <Ellipse fx:id="orbit" fill="DODGERBLUE" layoutX="180.0" layoutY="0.0" radiusX="204.0" radiusY="154.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+   </children>
+</Pane>

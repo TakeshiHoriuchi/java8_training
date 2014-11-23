@@ -1,0 +1,2 @@
+文中の"コントロールの境界を設定する方法"がパディングや空白の指定方法だとすると、
+GridPane.marginやBorderPane.marginで指定可能。
