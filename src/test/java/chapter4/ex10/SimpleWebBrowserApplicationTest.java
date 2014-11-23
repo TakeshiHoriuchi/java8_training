@@ -31,45 +31,42 @@ public class SimpleWebBrowserApplicationTest extends GuiTest {
   
   @Test
   public void test_get_web_page() {
-    click("#textURL").type("http://localhost:4567/").click("#buttonAccess");
-    sleep(500, TimeUnit.MILLISECONDS);
-    
-    verifyThat("#webView", (WebView view) -> {
-      String text = view.getEngine().getDocument().getDocumentElement().getTextContent();
-      return text.contains("Fuga");
-    });
+    jumpByURL("http://localhost:4567/");
+    assertWebPageContains("Fuga");
   }
   
   @Test
   public void test_back_button() {
-    click("#textURL").type("http://localhost:4567/").click("#buttonAccess");
-    sleep(500, TimeUnit.MILLISECONDS);
+    jumpByURL("http://localhost:4567/");
+    assertWebPageContains("Fuga");
     
-    verifyThat("#webView", (WebView view) -> {
-      String text = view.getEngine().getDocument().getDocumentElement().getTextContent();
-      return text.contains("Fuga");
-    });
+    jumpByURL("http://localhost:4567/foo");
+    assertWebPageContains("foo");
     
-    click("#textURL").push(KeyCode.CONTROL, KeyCode.A).push(KeyCode.BACK_SPACE).
-            type("http://localhost:4567/foo").click("#buttonAccess");
-    sleep(500, TimeUnit.MILLISECONDS);
-    
-    verifyThat("#webView", (WebView view) -> {
-      String text = view.getEngine().getDocument().getDocumentElement().getTextContent();
-      return text.contains("foo");
-    });
-    
-    click("#buttonBack");
-    sleep(500, TimeUnit.MILLISECONDS);
-    
-    verifyThat("#webView", (WebView view) -> {
-      String text = view.getEngine().getDocument().getDocumentElement().getTextContent();
-      return text.contains("Fuga");
-    });
+    jumpByBackButton();
+    assertWebPageContains("Fuga");
   }
 
   @Override
   protected Parent getRootNode() {
     return SimpleWebBrowserApplication.getRoot();
+  }
+  
+  private void jumpByURL(String url) {
+    click("#textURL").push(KeyCode.CONTROL, KeyCode.A).push(KeyCode.BACK_SPACE).
+            type(url).click("#buttonAccess");
+    sleep(500, TimeUnit.MILLISECONDS);
+  }
+  
+  private void jumpByBackButton() {
+    click("#buttonBack");
+    sleep(500, TimeUnit.MILLISECONDS);
+  }
+  
+  private void assertWebPageContains(String expect) {
+    verifyThat("#webView", (WebView view) -> {
+      String text = view.getEngine().getDocument().getDocumentElement().getTextContent();
+      return text.contains(expect);
+    });
   }
 }
