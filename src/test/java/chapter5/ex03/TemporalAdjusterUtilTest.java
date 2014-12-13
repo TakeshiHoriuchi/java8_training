@@ -1,9 +1,6 @@
 package chapter5.ex03;
 
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.temporal.TemporalAdjuster;
-import java.util.function.Predicate;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
