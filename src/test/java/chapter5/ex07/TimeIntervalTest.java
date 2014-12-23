@@ -1,7 +1,6 @@
 package chapter5.ex07;
 
 import java.time.LocalDateTime;
-import java.time.Month;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -116,8 +115,8 @@ public class TimeIntervalTest {
   }
   
   /*
-  ---
-     ----
+      ---
+  ----
   */
   @Test
   public void testAbuts_false4() {
