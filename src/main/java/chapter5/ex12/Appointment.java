@@ -1,34 +1,38 @@
 package chapter5.ex12;
 
 import java.time.ZonedDateTime;
-import java.util.concurrent.atomic.AtomicInteger;
 
+public class Appointment {
 
-class Appointment {
-  private static AtomicInteger idBase = new AtomicInteger(0);
-  
-  private ZonedDateTime zdt;
+  private ZonedDateTime time;
   private String description;
   private boolean isNotified;
-  private final int id;
-  
-  public Appointment(ZonedDateTime time) {
-    zdt = time;
+
+  public Appointment(ZonedDateTime time, String description) {
+    this.time = time;
+    this.description = description;
+    this.isNotified = false;
   }
   
   public Appointment(Appointment app) {
-    this.zdt = app.zdt;
+    this.time = app.time;
+    this.description = app.description;
     this.isNotified = app.isNotified;
   }
-  
-  @Override
-  public boolean equals(Object obj) {
-    Appointment app = (Appointment)obj;
-    return zdt.equals(app.zdt);
+
+  public ZonedDateTime getTime() {
+    return time;
   }
 
-  @Override
-  public int hashCode() {
-    return zdt.hashCode();
+  public String getDescription() {
+    return description;
+  }
+  
+  public boolean isNotified() {
+    return isNotified;
+  }
+
+  public void setIsNotified(boolean isNotified) {
+    this.isNotified = isNotified;
   }
 }
