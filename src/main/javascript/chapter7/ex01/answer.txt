@@ -1,0 +1,17 @@
+下部に操作ログを示す。特殊な文法を記憶するコストが高いので、Javaでテストプログラムを書くより楽だとは言えないと思う。
+
+C:\Users\horiuchi\Desktop
+λ jjs
+jjs> var Stream = java.util.stream.Stream.of(1, 2, 3)
+jjs> stream.map(function(a) {return a * a;})
+<shell>:1 ReferenceError: "stream" is not defined
+jjs> var stream = java.util.stream.Stream.of(1, 2, 3)
+jjs> stream.map(function(a) {return a * a;})
+java.util.stream.ReferencePipeline$3@62bd765
+jjs> var Collectors = java.util.stream.Collectors
+jjs> var list = stream.collect(Collectors.toList())
+java.lang.IllegalStateException: stream has already been operated upon or closed
+jjs> var stream = java.util.stream.Stream.of(1, 2, 3)
+jjs> var list = stream.map(function(a) {return a * a;}).collect(Collectors.toList())
+jjs> list
+[1.0, 4.0, 9.0]                                                                                    

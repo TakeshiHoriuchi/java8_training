@@ -1,0 +1,9 @@
+本文どおりに実行するとClassクラスをStringクラスにキャストしようとして
+Exception in thread "main" java.lang.ClassCastException: Cannot cast java.lang.Class to java.lang.String
+で失敗する。
+
+var out = java.lang.System.out;
+var hoge = "hogehoge".slice(3);
+var klass = hoge.getClass();
+out.println(klass);
+java.lang.String.class.cast(klass);

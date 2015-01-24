@@ -1,0 +1,69 @@
+C:\Users\r3pc\Desktop\test
+λ jjs
+jjs> var Paths = java.nio.file.Paths
+jjs> var path = Paths.get("./test_data.txt")
+jjs> var utf8 = java.nio.charset.Charset.forName("UTF-8")
+jjs> var strs = java.nio.Files.readAllLines(path, utf8)
+java.lang.RuntimeException: java.lang.ClassNotFoundException: java.nio.Files.readAllLines
+jjs> var strs = java.nio.file.Files.readAllLines(path, utf8)
+jjs> strs
+[qui, incidunt, ipsam, quo, id, animi, quae, in, molestiae, autem, labore, architecto, soluta, veniam, esse, odit, ex, cupidit
+ate, nisi, qui, eos, odio, sequi, aliquam, mollitia, hic, perferendis, sunt, quia, quia, rerum, nemo, enim, qui, impedit, temp
+ora, ea, sed, inventore, ut, dolorum, ut, eos, eum, similique, dolor, sit, itaque, atque, amet, rerum, voluptatum, minus, et,
+consequatur, suscipit, reprehenderit, magnam, molestias, vel, omnis, laborum, porro, error, placeat, qui, voluptate, excepturi
+, facere, illo, pariatur, tenetur, repellendus, dolorem, voluptates, in, possimus, qui, natus, voluptatem, provident, eligendi
+, occaecati, magni, quis, sapiente, nobis, eveniet, ut, unde, numquam, at, quisquam, saepe, et, eius, nihil, et, libero, dolor
+]
+jjs> var Collectors = java.util.stream.Collectors
+jjs> var strs_over_12 = strs.stream.select(function(x) {return x >= 12}).collect(Collectors.toList())
+<shell>:1 TypeError: [jdk.internal.dynalink.beans.SimpleDynamicMethod Stream java.util.Collection.stream()] has no such functi
+on "select"
+jjs> var strs_over_12 = strs.stream().select(function(x) {return x >= 12}).collect(Collectors.toList())
+<shell>:1 TypeError: java.util.stream.ReferencePipeline$Head@5af97850 has no such function "select"
+jjs> var strs_over_12 = strs.stream().filter(function(x) {return x >= 12}).collect(Collectors.toList())
+jjs> strs_over_12
+[]
+jjs> var strs_over_5 = strs.stream().filter(function(x) {return x >= 5}).collect(Collectors.toList())
+jjs> strs_over_5
+[]
+jjs> strs
+[qui, incidunt, ipsam, quo, id, animi, quae, in, molestiae, autem, labore, architecto, soluta, veniam, esse, odit, ex, cupiditate, nisi, qui, eos, odio, sequi, aliquam
+, mollitia, hic, perferendis, sunt, quia, quia, rerum, nemo, enim, qui, impedit, tempora, ea, sed, inventore, ut, dolorum, ut, eos, eum, similique, dolor, sit, itaque,
+ atque, amet, rerum, voluptatum, minus, et, consequatur, suscipit, reprehenderit, magnam, molestias, vel, omnis, laborum, porro, error, placeat, qui, voluptate, except
+uri, facere, illo, pariatur, tenetur, repellendus, dolorem, voluptates, in, possimus, qui, natus, voluptatem, provident, eligendi, occaecati, magni, quis, sapiente, no
+bis, eveniet, ut, unde, numquam, at, quisquam, saepe, et, eius, nihil, et, libero, dolor]
+jjs> console.log(strs)
+<shell>:1 ReferenceError: "console" is not defined
+jjs> System.out.println(strs)
+<shell>:1 ReferenceError: "System" is not defined
+jjs> java.lang.System.out.println(strs)
+[qui, incidunt, ipsam, quo, id, animi, quae, in, molestiae, autem, labore, architecto, soluta, veniam, esse, odit, ex, cupiditate, nisi, qui, eos, odio, sequi, aliquam
+, mollitia, hic, perferendis, sunt, quia, quia, rerum, nemo, enim, qui, impedit, tempora, ea, sed, inventore, ut, dolorum, ut, eos, eum, similique, dolor, sit, itaque,
+ atque, amet, rerum, voluptatum, minus, et, consequatur, suscipit, reprehenderit, magnam, molestias, vel, omnis, laborum, porro, error, placeat, qui, voluptate, except
+uri, facere, illo, pariatur, tenetur, repellendus, dolorem, voluptates, in, possimus, qui, natus, voluptatem, provident, eligendi, occaecati, magni, quis, sapiente, no
+bis, eveniet, ut, unde, numquam, at, quisquam, saepe, et, eius, nihil, et, libero, dolor]
+null
+jjs> out
+<shell>:1 ReferenceError: "out" is not defined
+jjs> var out = java.lang.System.out
+jjs> var strs_over_5 = strs.stream().filter(function(x) {return x.length() >= 5}).collect(Collectors.toList())
+jjs> var strs_over_5
+jjs> var strs_over_5 = strs.stream().filter(function(x) {return x.length() >= 5}).collect(Collectors.toList())
+jjs> strs_over_5
+[incidunt, ipsam, animi, molestiae, autem, labore, architecto, soluta, veniam, cupiditate, sequi, aliquam, mollitia, perferendis, rerum, impedit, tempora, inventore, d
+olorum, similique, dolor, itaque, atque, rerum, voluptatum, minus, consequatur, suscipit, reprehenderit, magnam, molestias, omnis, laborum, porro, error, placeat, volu
+ptate, excepturi, facere, pariatur, tenetur, repellendus, dolorem, voluptates, possimus, natus, voluptatem, provident, eligendi, occaecati, magni, sapiente, nobis, eve
+niet, numquam, quisquam, saepe, nihil, libero, dolor]
+jjs> var strs_over_12 = strs.stream().filter(function(x) {return x.length() >= 12}).collect(Collectors.toList())
+jjs> strs_over_12
+[reprehenderit]
+jjs> out.println(java.util.Collections.sort(strs_over_5))
+null
+null
+jjs> out.println(strs_over_5)
+[aliquam, animi, architecto, atque, autem, consequatur, cupiditate, dolor, dolor, dolorem, dolorum, eligendi, error, eveniet, excepturi, facere, impedit, incidunt, inv
+entore, ipsam, itaque, labore, laborum, libero, magnam, magni, minus, molestiae, molestias, mollitia, natus, nihil, nobis, numquam, occaecati, omnis, pariatur, perfere
+ndis, placeat, porro, possimus, provident, quisquam, repellendus, reprehenderit, rerum, rerum, saepe, sapiente, sequi, similique, soluta, suscipit, tempora, tenetur, v
+eniam, voluptate, voluptatem, voluptates, voluptatum]
+null
+jjs>
