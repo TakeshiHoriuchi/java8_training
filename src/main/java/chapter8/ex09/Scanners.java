@@ -1,13 +1,10 @@
 package chapter8.ex09;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.PrimitiveIterator;
 import java.util.Scanner;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import java.util.function.DoubleConsumer;
-import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
