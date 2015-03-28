@@ -1,7 +1,7 @@
 package chapter8.ex11;
 
-// ・Rubyが動作する環境で実行すること
-// ・4567番ポートが空いていること
+// ・Rubyが動作し、かつパスが通っている環境で実行すること
+// ・4567番ポートがあいていること
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -23,7 +23,7 @@ public class Grep {
               filter((path) -> {
                 return fileContains(path, "volatile") && fileContains(path, "transient");
               }).
-              forEach(path -> System.out.println(path.toString().substring(ROOT.length())));
+              forEach(path -> System.out.println(parseClassName(path)));
     } catch (IOException ex) {
       Logger.getLogger(Grep.class.getName()).log(Level.SEVERE, null, ex);
     }
@@ -36,5 +36,9 @@ public class Grep {
       Logger.getLogger(Grep.class.getName()).log(Level.SEVERE, null, ex);
       return false;
     }
+  }
+  
+  private static String parseClassName(Path path) {
+    return path.toString().substring(ROOT.length());
   }
 }

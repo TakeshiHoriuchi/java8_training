@@ -1,0 +1,20 @@
+
+import java.nio.file.Path;
+import java.util.List;
+import java.util.regex.Pattern;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class FileUtilTest {
+
+  @Test
+  public void testGrep() throws Exception {
+    System.out.println("grep");
+    Path path = null;
+    Pattern pattern = null;
+    List<String> expResult = null;
+    List<String> result = FileUtil.grep(path, pattern);
+    assertEquals(expResult, result);
+    fail("The test case is a prototype.");
+  }
+}
