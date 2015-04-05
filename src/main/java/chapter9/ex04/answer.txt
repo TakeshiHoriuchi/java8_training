@@ -1,0 +1,11 @@
+このリポジトリ中では次のコード。
+
+      try {
+        File file = new File(WebUtilTest.class.getResource("test.html").toURI());
+        return FileUtils.readFileToString(file, "UTF-8");
+      } catch (IOException | URISyntaxException ex) {
+        throw new RuntimeException(ex);
+      }
+
+ヒントのXML解析の場合で言えば、XMLファイルを読み込むする処理と、XMLをパースする処理の
+どちらでも例外が起こり得り、かつ、どちらでも例外をキャッチしたらログ出力して終了させる場合。

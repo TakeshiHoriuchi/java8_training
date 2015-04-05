@@ -15,7 +15,6 @@ public class Address {
   }
   
   public static Address parse(String str) {
-//    Matcher matcher = Pattern.compile("(?<city>[\\p{L} ]+),\\s*(?<state>[A-Z]{2})\\s+(?<zipcode>[0-9]{5}|([0-9]{5}\\-?[0-9]{4}))").matcher(str);
     Matcher matcher = Pattern.compile("(?<city>[\\p{L} ]+),\\s*(?<state>[A-Z]{2})\\s+(?<zipcode>[0-9]{5}|([0-9]{5}\\-?[0-9]{4}))").matcher(str);
     if (matcher.matches()) {
       return new Address(

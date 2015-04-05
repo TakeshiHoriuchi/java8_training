@@ -14,7 +14,6 @@ public class AddressTest {
       String state = faker.address().stateAbbr();
       String zipCode = faker.address().zipCode();
       String input = city + ", " + state + " " + zipCode;
-      System.out.println(input);
 
       Address actual = Address.parse(input);
       assertAddress(actual, city, state, zipCode);
