@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.canvas.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<ContextMenu xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clock.MenuController">
+  <items>
+    <MenuItem mnemonicParsing="false" text="設定" onAction="#handleConfig" />
+    <MenuItem mnemonicParsing="false" text="終了" onAction="#handleExit" />
+  </items>
+</ContextMenu>
