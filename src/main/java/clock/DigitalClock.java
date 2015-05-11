@@ -100,6 +100,10 @@ public class DigitalClock extends Application {
     Parent parent = loader.load();
     Stage stage = new Stage();
     stage.setScene(new Scene(parent));
+    
+    ConfigController controller = (ConfigController)loader.getController();
+    controller.setSelf(stage);
+    
     stage.show();
     
     return stage;

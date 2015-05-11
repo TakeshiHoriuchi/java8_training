@@ -1,3 +1,4 @@
 /screenshot*
 *.swp
 *.class
+/target/
