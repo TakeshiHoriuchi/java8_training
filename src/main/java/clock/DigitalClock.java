@@ -27,14 +27,17 @@ public class DigitalClock extends Application {
   private Stage configStage;
   private Color bgColor = Color.BROWN;
   private Color color = Color.ALICEBLUE;
+  
+  private Font currentFont;
+  private Color currentBgColor;
+  private Color currentColor;
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    this.configStage = initConfigStage();
     this.menu = initMenu(primaryStage);
     this.text = initText();
-    this.canvas = initCanvas(primaryStage, this.menu, this.text);
-
+    this.canvas = initCanvas(primaryStage, this.text);
+    this.configStage = initConfigStage(primaryStage);
     primaryStage.initStyle(StageStyle.UNDECORATED);
     primaryStage.setScene(new Scene(new Group(canvas)));
     primaryStage.show();
@@ -49,22 +52,24 @@ public class DigitalClock extends Application {
     ContextMenu menu = loader.load();
     MenuController controller = (MenuController) loader.getController();
     controller.setExitHandler(e -> stage.close());
-    controller.setConfigHandler(e -> configStage.show());
+    controller.setConfigHandler(e -> {
+      currentFont = text.getFont();
+      currentBgColor = bgColor;
+      currentColor = color;
+      configStage.show();
+    });
     return menu;
   }
-  
+
   private Text initText() {
-    String drawn = LocalTime.now().format(DateTimeFormatter.ofPattern("kk:mm:ss"));
-    Font font = Font.getDefault();
-    Text text = new Text(drawn);
-    text.setFont(font);
-    return text;
+    String drawn = LocalTime.now().format(DateTimeFormatter.ofPattern("88:88:88"));
+    return new Text(drawn);
   }
 
-  private Canvas initCanvas(Stage stage, ContextMenu menu, Text text) {
-
+  private Canvas initCanvas(Stage stage, Text text) {
     Bounds b = text.getLayoutBounds();
-    Canvas canvas = new Canvas(b.getWidth(), b.getHeight() * 1.1);
+    Canvas canvas = new Canvas();
+    setFontAndSize(canvas, Font.getDefault(), stage);
 
     final Delta delta = new Delta();
     canvas.setOnMousePressed(e -> {
@@ -80,37 +85,57 @@ public class DigitalClock extends Application {
       stage.setX(e.getScreenX() + delta.x);
       stage.setY(e.getScreenY() + delta.y);
     });
-    
+
     new AnimationTimer() {
       @Override
       public void handle(long now) {
-        text.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("kk:mm:ss")));
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(bgColor);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setFill(color);
-        gc.fillText(text.getText(),
-                    0, gc.getFont().getSize() + 2);
+        gc.fillText(LocalTime.now().format(DateTimeFormatter.ofPattern("kk:mm:ss")),
+                    0, text.getLayoutBounds().getHeight() * 0.9);
       }
     }.start();
-    
+
     return canvas;
   }
 
-  private Stage initConfigStage() throws IOException {
+  private Stage initConfigStage(Stage primaryStage) throws IOException {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Config.fxml"));
     Parent parent = loader.load();
     Stage stage = new Stage();
     stage.setScene(new Scene(parent));
-    
-    ConfigController controller = (ConfigController)loader.getController();
+
+    ConfigController controller = (ConfigController) loader.getController();
     controller.setSelf(stage);
     controller.setColorHandler(c -> this.color = c);
     controller.setBgColorHandler(c -> this.bgColor = c);
-    
-    stage.show();
+    controller.setSizeHandler(size -> {
+      Font font = new Font(text.getFont().getName(), size);
+      setFontAndSize(canvas, font, primaryStage);
+    });
+    controller.setFontHandler(name -> {
+      Font font = new Font(name, text.getFont().getSize());
+      setFontAndSize(canvas, font, primaryStage);
+    });
+    controller.setCancelHandler((e) -> {
+      setFontAndSize(canvas, currentFont, primaryStage);
+      color = currentColor;
+      bgColor = currentBgColor;
+    });
     
     return stage;
+  }
+
+  private void setFontAndSize(Canvas canvas, Font font, Stage stage) {
+    text.setFont(font);
+    Bounds b = text.getLayoutBounds();
+    canvas.setHeight(b.getHeight() * 1.001);
+    canvas.setWidth(b.getWidth() * 1.001);
+    stage.setHeight(b.getHeight() * 1.001);
+    stage.setWidth(b.getWidth() * 1.001);
+    canvas.getGraphicsContext2D().setFont(font);
   }
 
   private static class Delta {
