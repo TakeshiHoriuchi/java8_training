@@ -3,6 +3,7 @@ package clock;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,17 +27,21 @@ public class ConfigController implements Initializable {
     private ListView<String> bgColorList;
 
     private Stage self;
-
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        initColorList(colorList);
+        initColorList(bgColorList);
+    }
+    
+    private void initColorList(ListView<String> list) {
         ObservableList<String> data = FXCollections.observableArrayList(
                 "chocolate", "salmon", "gold", "coral", "darkorchid",
                 "darkgoldenrod", "lightsalmon", "black", "rosybrown", "blue",
                 "blueviolet", "brown");
 
-        bgColorList.setItems(data);
-        bgColorList.setCellFactory(list -> new ColorChipCell());
-
+        list.setItems(data);
+        list.setCellFactory(li -> new ColorChipCell());
     }
 
     @FXML
@@ -51,6 +56,16 @@ public class ConfigController implements Initializable {
 
     public void setSelf(Stage self) {
         this.self = self;
+    }
+    public void setColorHandler(Consumer<Color> colorHandler) {
+        colorList.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
+            colorHandler.accept(Color.web(nv));
+        });
+    }
+    public void setBgColorHandler(Consumer<Color> bgColorHandler) {
+        bgColorList.getSelectionModel().selectedItemProperty().addListener((o, ov, nv) -> {
+            bgColorHandler.accept(Color.web(nv));
+        });
     }
 
     private static class ColorChipCell extends ListCell<String> {

@@ -12,7 +12,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -26,6 +25,8 @@ public class DigitalClock extends Application {
   private ContextMenu menu;
   private Text text;
   private Stage configStage;
+  private Color bgColor = Color.BROWN;
+  private Color color = Color.ALICEBLUE;
 
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -48,6 +49,7 @@ public class DigitalClock extends Application {
     ContextMenu menu = loader.load();
     MenuController controller = (MenuController) loader.getController();
     controller.setExitHandler(e -> stage.close());
+    controller.setConfigHandler(e -> configStage.show());
     return menu;
   }
   
@@ -84,9 +86,9 @@ public class DigitalClock extends Application {
       public void handle(long now) {
         text.setText(LocalTime.now().format(DateTimeFormatter.ofPattern("kk:mm:ss")));
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.FORESTGREEN);
+        gc.setFill(bgColor);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        gc.setFill(Color.ALICEBLUE);
+        gc.setFill(color);
         gc.fillText(text.getText(),
                     0, gc.getFont().getSize() + 2);
       }
@@ -103,6 +105,8 @@ public class DigitalClock extends Application {
     
     ConfigController controller = (ConfigController)loader.getController();
     controller.setSelf(stage);
+    controller.setColorHandler(c -> this.color = c);
+    controller.setBgColorHandler(c -> this.bgColor = c);
     
     stage.show();
     
