@@ -1,10 +1,11 @@
 package clock;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -27,25 +28,27 @@ public class DigitalClock extends Application {
   private ContextMenu menu;
   private Text text;
   private Stage configStage;
-  private Color bgColor = Color.BROWN;
-  private Color color = Color.ALICEBLUE;
-  
+  private Color bgColor;
+  private Color color;
+
   private Font currentFont;
   private Color currentBgColor;
   private Color currentColor;
+  
+  private ConfigStore conf;
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-      Properties p = new Properties();
-      try (InputStream in = getClass().getResourceAsStream("setting.properties")) {
-          p.load(in);
-      }
-      System.out.println(p.getProperty("font.name"));
-      
+    conf = ConfigStore.load();
+    color = conf.getColor();
+    bgColor = conf.getBgColor();
+
     this.menu = initMenu(primaryStage);
-    this.text = initText();
+    this.text = initText(conf);
     this.canvas = initCanvas(primaryStage, this.text);
     this.configStage = initConfigStage(primaryStage);
+    primaryStage.setX(conf.getX());
+    primaryStage.setY(conf.getY());
     primaryStage.initStyle(StageStyle.UNDECORATED);
     primaryStage.setScene(new Scene(new Group(canvas)));
     primaryStage.show();
@@ -59,7 +62,19 @@ public class DigitalClock extends Application {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("fxml/Menu.fxml"));
     ContextMenu menu = loader.load();
     MenuController controller = (MenuController) loader.getController();
-    controller.setExitHandler(e -> stage.close());
+    controller.setExitHandler(e -> {
+      conf.setFont(text.getFont());
+      conf.setColor(color);
+      conf.setBgColor(bgColor);
+      conf.setX(stage.getX());
+      conf.setY(stage.getY());
+      try {
+        conf.save();
+      } catch (URISyntaxException | IOException ex) {
+        Logger.getLogger(DigitalClock.class.getName()).log(Level.SEVERE, null, ex);
+      }
+      stage.close();
+    });
     controller.setConfigHandler(e -> {
       currentFont = text.getFont();
       currentBgColor = bgColor;
@@ -69,15 +84,17 @@ public class DigitalClock extends Application {
     return menu;
   }
 
-  private Text initText() {
+  private Text initText(ConfigStore conf) {
     String drawn = LocalTime.now().format(DateTimeFormatter.ofPattern("88:88:88"));
-    return new Text(drawn);
+    Text text = new Text(drawn);
+    text.setFont(conf.getFont());
+    return text;
   }
 
   private Canvas initCanvas(Stage stage, Text text) {
     Bounds b = text.getLayoutBounds();
     Canvas canvas = new Canvas();
-    setFontAndSize(canvas, Font.getDefault(), stage);
+    setFontAndSize(canvas, text.getFont(), stage);
 
     final Delta delta = new Delta();
     canvas.setOnMousePressed(e -> {
@@ -132,7 +149,7 @@ public class DigitalClock extends Application {
       color = currentColor;
       bgColor = currentBgColor;
     });
-    
+
     return stage;
   }
 
