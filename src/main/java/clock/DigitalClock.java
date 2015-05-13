@@ -1,8 +1,10 @@
 package clock;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Properties;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -34,6 +36,12 @@ public class DigitalClock extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
+      Properties p = new Properties();
+      try (InputStream in = getClass().getResourceAsStream("setting.properties")) {
+          p.load(in);
+      }
+      System.out.println(p.getProperty("font.name"));
+      
     this.menu = initMenu(primaryStage);
     this.text = initText();
     this.canvas = initCanvas(primaryStage, this.text);

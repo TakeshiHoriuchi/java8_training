@@ -15,9 +15,7 @@ public class MenuController implements Initializable {
   private Consumer<ActionEvent> exitHandler;
   
   @Override
-  public void initialize(URL location, ResourceBundle resources) {
-    
-  }
+  public void initialize(URL location, ResourceBundle resources) {}
 
   @FXML
   private void handleConfig(ActionEvent event) throws IOException {
@@ -29,16 +27,10 @@ public class MenuController implements Initializable {
     exitHandler.accept(event);
   }
 
-  /**
-   * @param configHandler the configHandler to set
-   */
   public void setConfigHandler(Consumer<ActionEvent> configHandler) {
     this.configHandler = configHandler;
   }
 
-  /**
-   * @param exitHandler the exitHandler to set
-   */
   public void setExitHandler(Consumer<ActionEvent> exitHandler) {
     this.exitHandler = exitHandler;
   }
